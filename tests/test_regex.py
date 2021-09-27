@@ -1,8 +1,11 @@
+# SPDX-FileCopyrightText: (c) 2021 Artyom Galkin <github.com/rtmigo>
+# SPDX-License-Identifier: MIT
+
+
 import re
 import unittest
 
 from framefile import hash_pattern_to_regex, pct_pattern_to_regex
-
 
 
 class TestHashPatternToRegex(unittest.TestCase):
@@ -17,6 +20,7 @@ class TestHashPatternToRegex(unittest.TestCase):
         with self.subTest("The first group is the number sequence:"):
             self.assertEqual(re.match(rx, "file-5432.png").group(1), '5432')
 
+
 class TestPctPatternToRegex(unittest.TestCase):
     def test(self):
         rx = pct_pattern_to_regex('file-%04d.png')
@@ -28,6 +32,3 @@ class TestPctPatternToRegex(unittest.TestCase):
             self.assertIsNone(re.match(rx, "file-5432:png"))
         with self.subTest("The first group is the number sequence:"):
             self.assertEqual(re.match(rx, "file-5432.png").group(1), '5432')
-
-
-

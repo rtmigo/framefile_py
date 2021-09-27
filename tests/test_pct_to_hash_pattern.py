@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: (c) 2021 Artyom Galkin <github.com/rtmigo>
+# SPDX-License-Identifier: MIT
+
+
 import unittest
 
 from framefile._base import pct_to_hash_pattern
