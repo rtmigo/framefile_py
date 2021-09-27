@@ -18,6 +18,16 @@ and [Blender](https://www.blender.org/).
 pip3 install hashdigits
 ```
 
+<details>
+<summary>other options</summary>
+
+#### Install pre-release from GitHub:
+```
+pip3 install git+https://github.com/rtmigo/hashdigits_py@staging#egg=hashdigits
+```
+
+</details>
+
 # Use
 
 ## Matching with glob

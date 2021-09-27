@@ -10,7 +10,7 @@ from hashdigits import DuplicateNumberError, count_matches_from_interval, \
     NumbersCountError, pattern_to_regex
 
 
-class TestNumFramesReady(unittest.TestCase):
+class TestCountMatches(unittest.TestCase):
     def test(self):
         pattern = "file-####.png"
         files = [
@@ -45,9 +45,9 @@ class TestNumFramesReady(unittest.TestCase):
         with self.assertRaises(DuplicateNumberError):
             count_matches_from_interval("img####.jpg", 6, 15,
                                         ["img0001.jpg",
-                                       "img0002.jpg",
-                                       "img0002.jpg",
-                                       "img0003.jpg"])
+                                         "img0002.jpg",
+                                         "img0002.jpg",
+                                         "img0003.jpg"])
 
 
 class TestExtractNumber(unittest.TestCase):
@@ -72,6 +72,33 @@ class TestHashPatternToGlob(unittest.TestCase):
             pattern_to_glob("img####.png")
         ),
             ['img0001.png', 'img0003.png'])
+
+    def test_posix_slashes(self):
+        self.assertEqual(
+            fnmatch.filter([
+                "/path/to/anything.png",
+                "/path/to/img0001.png",
+                "/path/to/imgABCD.png",
+                "/path/to/img0002:png",
+                "/path/to/img0003.png",
+                "/path/to/something.jpg"],
+                pattern_to_glob("/path/to/img####.png")
+            ),
+            ['/path/to/img0001.png', '/path/to/img0003.png'])
+
+    def test_windows_backslashes(self):
+        files = [
+            "W:\\path\\to\\anything.png",
+            "W:\\path\\to\\img0001.png",
+            "W:\\path\\to\\imgABCD.png",
+            "W:\\path\\to\\img0002:png",
+            "W:\\path\\to\\img0003.png",
+            "W:\\path\\to\\something.jpg"]
+        self.assertEqual(
+            fnmatch.filter(
+                files,
+                pattern_to_glob("W:\\path\\to\\img####.png")),
+            ['W:\\path\\to\\img0001.png', 'W:\\path\\to\\img0003.png'])
 
     def test_fn_match_does_not_recognize_hashes(self):
         self.assertEqual(fnmatch.filter([
