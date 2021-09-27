@@ -53,6 +53,7 @@ def _pattern_to_regex(pattern: str, iter_func: Callable) -> str:
         return (result[:start] +
                 "(\\d{" + str(digits_count) + "})" +
                 result[end:])
+    return result
 
 
 @lru_cache()
@@ -122,7 +123,7 @@ def _filename_to_pattern(filename: Union[str, Path],
     return filename
 
 
-@lru_cache
+@lru_cache()
 def pct_to_hash_pattern(pattern: str) -> str:
     def replacer(m: re.Match) -> str:
         return hash_pattern(int(m.group(1)))
