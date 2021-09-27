@@ -21,9 +21,9 @@ pip3 install hashdigits
 import glob
 import hashdigits
 
-glob_pattern = hashdigits.hash_pattern_to_glob('img####.jpg')
+glob_pattern = hashdigits.hash_pattern_to_glob('/path/to/img####.jpg')
 
-print(glob.glob('/path/to/' + glob_pattern))
+print(glob.glob(glob_pattern))
 
 # prints all files matching /path/to/img####.jpg
 ```
@@ -36,11 +36,12 @@ import hashdigits
 
 regex_pattern = hashdigits.hash_pattern_to_regex('img####.jpg')
 
-m = re.match(regex_pattern, 'img1234.jpg')
+a = re.match(regex_pattern, 'img1234.jpg')
+print(a.group(0))  # img1234.jpg
+print(a.group(1))  # 1234
 
-print(m.group(0))  # img1234.jpg
-print(m.group(1))  # 1234
-
+b = re.match(regex_pattern, 'anything.txt')
+print(b)  # None
 ```
 
 ## Extracting integers
