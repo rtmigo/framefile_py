@@ -14,9 +14,12 @@ Such files are often created by cameras and video production software.
 As a rule, this is a set of images with consecutive numbers, 
 like `IMG_0001.JPG`, `IMG_0002.JPG`, `IMG_0003.JPG` and so on.
 
-To handle files such as video sequences, for [ffmpeg](https://www.ffmpeg.org/)
-we will need a pattern like `IMG_%04d.JPG`, and for [Blender](https://www.blender.org/)
-a pattern like `IMG_####.JPG`.
+To handle files such as video sequences, [Blender](https://www.blender.org/)
+and [AE](https://www.adobe.com/products/aftereffects.html) use patterns like
+`IMG_####.JPG`. [ffmpeg](https://www.ffmpeg.org/) uses patterns like
+`IMG_%04d.JPG`.
+
+This package can create and parse patterns in both formats.
 
 # Install
 
