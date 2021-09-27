@@ -21,7 +21,7 @@ pip3 install hashdigits
 <details>
 <summary>other options</summary>
 
-Pre-release from GitHub:
+#### Install pre-release from GitHub:
 ```
 pip3 install git+https://github.com/rtmigo/hashdigits_py@staging#egg=hashdigits
 ```
