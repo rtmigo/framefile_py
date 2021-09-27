@@ -12,7 +12,7 @@ def load_module_dict(filename: str) -> dict:
     return module.__dict__
 
 
-name = "hashdigits"
+name = "framefile"
 
 constants = load_module_dict(f'{name}/_constants.py')
 
@@ -25,14 +25,14 @@ setup(
 
     author="Artyom Galkin",
     author_email="ortemeo@gmail.com",
-    url='https://github.com/rtmigo/hashdigits_py',
+    url='https://github.com/rtmigo/framefile_py',
 
     packages=find_packages(include=[name, f'{name}.*']),
 
     python_requires='>=3.7',
     install_requires=[],
 
-    description="Matching and parsing file or string patterns like img_####.jpg",
+    description="Matching and parsing file names like IMG_####.JPG or IMG_%04d.JPG",
     long_description=readme,
     long_description_content_type='text/markdown',
 
