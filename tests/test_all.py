@@ -5,49 +5,11 @@ import fnmatch
 import re
 import unittest
 
-from hashdigits import DuplicateNumberError, count_matches_from_interval, \
-    extract_number, PatternMismatchError, pattern_to_glob, \
+from hashdigits import extract_number, PatternMismatchError, pattern_to_glob, \
     NumbersCountError, pattern_to_regex
 
 
-class TestCountMatches(unittest.TestCase):
-    def test(self):
-        pattern = "file-####.png"
-        files = [
-            "labuda.db",
-            "file-0001.png",
-            "file-0003.png",
-            "file-0004.png",
-            "file-0005.png",
-            "file-0006.png",
-            "anything.jpg",
-            "file-0007.png",
-            "file-0008.png",
-            "file-0009.png",
-        ]
 
-        with self.subTest("6,7,8,9 of 6..15"):
-            self.assertEqual(
-                count_matches_from_interval(pattern, 6, 15, files),
-                4)
-
-        with self.subTest("1,3,4 of 1,2,3,4"):
-            self.assertEqual(
-                count_matches_from_interval(pattern, 1, 4, files),
-                3)
-
-        with self.subTest("Modified pattern matches nothing"):
-            self.assertEqual(
-                count_matches_from_interval(pattern + "z", 6, 15, files),
-                0)
-
-    def test_duplicate_number(self):
-        with self.assertRaises(DuplicateNumberError):
-            count_matches_from_interval("img####.jpg", 6, 15,
-                                        ["img0001.jpg",
-                                         "img0002.jpg",
-                                         "img0002.jpg",
-                                         "img0003.jpg"])
 
 
 class TestExtractNumber(unittest.TestCase):
