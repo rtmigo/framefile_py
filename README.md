@@ -41,9 +41,9 @@ import hashdigits
 
 regex_pattern = hashdigits.hash_pattern_to_regex('img####.jpg')
 
-a = re.match(regex_pattern, 'img1234.jpg')
-print(a.group(0))  # img1234.jpg
-print(a.group(1))  # 1234
+a = re.match(regex_pattern, 'img0023.jpg')
+print(a.group(0))  # img0023.jpg
+print(a.group(1))  # 0023
 
 b = re.match(regex_pattern, 'anything.txt')
 print(b)  # None
@@ -54,9 +54,9 @@ print(b)  # None
 ```python
 import hashdigits
 
-x: int = hashdigits.extract_number("img####.jpg", "img1234.jpg")
+x: int = hashdigits.extract_number("img####.jpg", "img0023.jpg")
 
-print(x)  # 1234
+print(x)  # 23
 
 try:
     y = hashdigits.extract_number("img####.jpg", "thumbs.db")
