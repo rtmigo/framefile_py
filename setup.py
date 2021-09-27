@@ -29,7 +29,7 @@ setup(
 
     packages=find_packages(include=[name, f'{name}.*']),
 
-    python_requires='>=3.9',
+    python_requires='>=3.7',
     install_requires=[],
 
     description="Package for matching file or string patterns "
