@@ -1,10 +1,13 @@
+# SPDX-FileCopyrightText: (c) 2021 Artyom Galkin <github.com/rtmigo>
+# SPDX-License-Identifier: MIT
+
 import fnmatch
 import re
 import unittest
 
 from hashdigits import DuplicateNumberError, num_matches_from_interval, \
-    extract_number, PatternMismatchError, hash_pattern_to_glob, \
-    NumbersCountError, hash_pattern_to_regex
+    extract_number, PatternMismatchError, pattern_to_glob, \
+    NumbersCountError, pattern_to_regex
 
 
 class TestNumFramesReady(unittest.TestCase):
@@ -66,7 +69,7 @@ class TestHashPatternToGlob(unittest.TestCase):
             "img0002:png",
             "img0003.png",
             "something.jpg"],
-            hash_pattern_to_glob("img####.png")
+            pattern_to_glob("img####.png")
         ),
             ['img0001.png', 'img0003.png'])
 
@@ -85,7 +88,7 @@ class TestHashPatternToGlob(unittest.TestCase):
 
 class TestHashPatternToRegex(unittest.TestCase):
     def test(self):
-        rx = hash_pattern_to_regex('file-####.png')
+        rx = pattern_to_regex('file-####.png')
         with self.subTest("Does not match any string"):
             self.assertIsNone(re.match(rx, "any.png"))
         with self.subTest("Matches exactly four digits:"):
@@ -98,13 +101,13 @@ class TestHashPatternToRegex(unittest.TestCase):
 
     def test_numbers_count_error_default(self):
         with self.assertRaises(NumbersCountError):
-            hash_pattern_to_regex("one####_###.jpg")
+            pattern_to_regex("one####_###.jpg")
 
     def test_numbers_count_error_need_2_to_3(self):
         with self.assertRaises(NumbersCountError):
-            hash_pattern_to_regex("##", min_numbers=2, max_numbers=3)
+            pattern_to_regex("##", min_numbers=2, max_numbers=3)
         with self.assertRaises(NumbersCountError):
-            hash_pattern_to_regex("##-##-##-##", min_numbers=2, max_numbers=3)
+            pattern_to_regex("##-##-##-##", min_numbers=2, max_numbers=3)
 
-        hash_pattern_to_regex("##-##", min_numbers=2, max_numbers=3)
-        hash_pattern_to_regex("##-##-##", min_numbers=2, max_numbers=3)
+        pattern_to_regex("##-##", min_numbers=2, max_numbers=3)
+        pattern_to_regex("##-##-##", min_numbers=2, max_numbers=3)
