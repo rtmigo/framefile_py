@@ -6,12 +6,12 @@ def lint():
     # pip3 install --upgrade setuptools pip distlib
 
     print("Running pylint...")
-    r = subprocess.call(['pylint', 'hashnum'])
+    r = subprocess.call(['pylint', 'hashdigits'])
     if r & 1 or r & 2 or r & 32:
         exit(1)
 
     print("Running mypy...")
-    if subprocess.call(['mypy', 'hashnum',
+    if subprocess.call(['mypy', 'hashdigits',
                         '--ignore-missing-imports']) != 0:
         exit(1)
 
