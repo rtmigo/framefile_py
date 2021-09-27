@@ -72,14 +72,10 @@ def pct_pattern_to_glob(pattern: str) -> str:
 def hash_extract_number(pattern: str, text: str) -> int:
     return _extract_number(pattern, text, hash_pattern_to_regex)
 
+
 def pct_extract_number(pattern: str, text: str) -> int:
     return _extract_number(pattern, text, pct_pattern_to_regex)
 
-    # rx = hash_pattern_to_regex(pattern)
-    # m = re.match(rx, text, flags=re.MULTILINE)
-    # if m is None:
-    #     raise PatternMismatchError
-    # return int(m.group(1))
 
 def _extract_number(pattern: str, text: str,
                     to_regex_func: Callable[[str], str]) -> int:
@@ -115,7 +111,6 @@ def _filename_to_pattern(filename: Union[str, Path],
     match: re.Match
     for s, e in reversed(list(
             iter_digit_spans(filename, min_length=min_length))):
-        # digit_mask = "%0" + str(e - s) + "d"
         return (filename[:s] +
                 to_pattern_func(e - s) +
                 filename[e:])
