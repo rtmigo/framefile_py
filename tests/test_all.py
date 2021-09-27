@@ -5,49 +5,8 @@ import fnmatch
 import re
 import unittest
 
-from hashdigits import DuplicateNumberError, num_matches_from_interval, \
-    extract_number, PatternMismatchError, pattern_to_glob, \
+from hashdigits import extract_number, PatternMismatchError, pattern_to_glob, \
     NumbersCountError, pattern_to_regex
-
-
-class TestNumFramesReady(unittest.TestCase):
-    def test(self):
-        pattern = "file-####.png"
-        files = [
-            "labuda.db",
-            "file-0001.png",
-            "file-0003.png",
-            "file-0004.png",
-            "file-0005.png",
-            "file-0006.png",
-            "anything.jpg",
-            "file-0007.png",
-            "file-0008.png",
-            "file-0009.png",
-        ]
-
-        with self.subTest("6,7,8,9 of 6..15"):
-            self.assertEqual(
-                num_matches_from_interval(pattern, 6, 15, files),
-                4)
-
-        with self.subTest("1,3,4 of 1,2,3,4"):
-            self.assertEqual(
-                num_matches_from_interval(pattern, 1, 4, files),
-                3)
-
-        with self.subTest("Modified pattern matches nothing"):
-            self.assertEqual(
-                num_matches_from_interval(pattern + "z", 6, 15, files),
-                0)
-
-    def test_duplicate_number(self):
-        with self.assertRaises(DuplicateNumberError):
-            num_matches_from_interval("img####.jpg", 6, 15,
-                                      ["img0001.jpg",
-                                       "img0002.jpg",
-                                       "img0002.jpg",
-                                       "img0003.jpg"])
 
 
 class TestExtractNumber(unittest.TestCase):
@@ -72,6 +31,33 @@ class TestHashPatternToGlob(unittest.TestCase):
             pattern_to_glob("img####.png")
         ),
             ['img0001.png', 'img0003.png'])
+
+    def test_posix_slashes(self):
+        self.assertEqual(
+            fnmatch.filter([
+                "/path/to/anything.png",
+                "/path/to/img0001.png",
+                "/path/to/imgABCD.png",
+                "/path/to/img0002:png",
+                "/path/to/img0003.png",
+                "/path/to/something.jpg"],
+                pattern_to_glob("/path/to/img####.png")
+            ),
+            ['/path/to/img0001.png', '/path/to/img0003.png'])
+
+    def test_windows_backslashes(self):
+        files = [
+            "W:\\path\\to\\anything.png",
+            "W:\\path\\to\\img0001.png",
+            "W:\\path\\to\\imgABCD.png",
+            "W:\\path\\to\\img0002:png",
+            "W:\\path\\to\\img0003.png",
+            "W:\\path\\to\\something.jpg"]
+        self.assertEqual(
+            fnmatch.filter(
+                files,
+                pattern_to_glob("W:\\path\\to\\img####.png")),
+            ['W:\\path\\to\\img0001.png', 'W:\\path\\to\\img0003.png'])
 
     def test_fn_match_does_not_recognize_hashes(self):
         self.assertEqual(fnmatch.filter([

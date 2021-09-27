@@ -6,7 +6,7 @@
 # [hashdigits](https://github.com/rtmigo/hashdigits_py#readme)
 
 Python library for matching file or string patterns like `img-####.jpg`,
-where `#` denotes a single digit.
+where the hash sign `#` denotes a single digit.
 
 Such patterns are used, for example, for the file names of individual video
 frames in  [ffmpeg](https://www.ffmpeg.org/)
@@ -17,6 +17,16 @@ and [Blender](https://www.blender.org/).
 ```
 pip3 install hashdigits
 ```
+
+<details>
+<summary>other options</summary>
+
+#### Install pre-release from GitHub:
+```
+pip3 install git+https://github.com/rtmigo/hashdigits_py@staging#egg=hashdigits
+```
+
+</details>
 
 # Use
 

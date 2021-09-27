@@ -32,13 +32,13 @@ setup(
     python_requires='>=3.7',
     install_requires=[],
 
-    description="Matching file or string patterns like img_####.jpg",
+    description="Matching and parsing file or string patterns like img_####.jpg",
     long_description=readme,
     long_description_content_type='text/markdown',
 
     license=constants['__license__'],
 
-    keywords="text string pattern regex glob hash digit number".split(),
+    keywords="text string pattern regex parsing integer glob hash digit number".split(),
 
     classifiers=[
         'License :: OSI Approved :: MIT License',
