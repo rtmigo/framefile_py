@@ -1,9 +1,9 @@
-[![PyPI version shields.io](https://img.shields.io/pypi/v/hashdigits.svg)](https://pypi.python.org/pypi/hashdigits/)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/framefile.svg)](https://pypi.python.org/pypi/framefile/)
 [![Generic badge](https://img.shields.io/badge/Python-3.7+-blue.svg)](#)
 [![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux-blue.svg)](#)
-[![Downloads](https://pepy.tech/badge/hashdigits/month)](https://pepy.tech/project/hashdigits)
+[![Downloads](https://pepy.tech/badge/framefile/month)](https://pepy.tech/project/framefile)
 
-# [hashdigits](https://github.com/rtmigo/hashdigits_py#readme)
+# [framefile](https://github.com/rtmigo/framefile_py#readme)
 
 Python library for parsing and matching file name patterns like `IMG_####.JPG` or 
 `IMG_%04d.JPG`.
