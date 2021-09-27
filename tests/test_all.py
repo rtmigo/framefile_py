@@ -70,6 +70,18 @@ class TestHashPatternToGlob(unittest.TestCase):
         ),
             ['img0001.png', 'img0003.png'])
 
+    def test_fn_match_does_not_recognize_hashes(self):
+        self.assertEqual(fnmatch.filter([
+            "anything.png",
+            "img0001.png",
+            "imgABCD.png",
+            "img0002:png",
+            "img0003.png",
+            "something.jpg"],
+            "img####.png"
+        ),
+            [])
+
 
 class TestHashPatternToRegex(unittest.TestCase):
     def test(self):
