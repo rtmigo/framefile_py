@@ -29,11 +29,10 @@ setup(
 
     packages=find_packages(include=[name, f'{name}.*']),
 
-    python_requires='>=3.9',
+    python_requires='>=3.7',
     install_requires=[],
 
-    description="Package for matching file or string patterns "
-                "like img-####.jpg",
+    description="Matching file or string patterns like img_####.jpg",
     long_description=readme,
     long_description_content_type='text/markdown',
 
@@ -43,8 +42,9 @@ setup(
 
     classifiers=[
         'License :: OSI Approved :: MIT License',
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Environment :: Console",
         "Typing :: Typed",
         "Operating System :: POSIX",
         "Operating System :: Microsoft :: Windows"
