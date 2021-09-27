@@ -52,5 +52,3 @@ def extract_number(pattern: str, text: str) -> int:
     if m is None:
         raise PatternMismatchError
     return int(m.group(1))
-
-

@@ -9,9 +9,6 @@ from hashdigits import extract_number, PatternMismatchError, pattern_to_glob, \
     NumbersCountError, pattern_to_regex
 
 
-
-
-
 class TestExtractNumber(unittest.TestCase):
     def test_match(self):
         self.assertEqual(extract_number('file_####.jpg', 'file_1234.jpg'), 1234)
