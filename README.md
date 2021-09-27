@@ -1,3 +1,8 @@
+[![PyPI version shields.io](https://img.shields.io/pypi/v/hashdigits.svg)](https://pypi.python.org/pypi/hashdigits/)
+[![Generic badge](https://img.shields.io/badge/Python-3.7+-blue.svg)](#)
+[![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux-blue.svg)](#)
+[![Downloads](https://pepy.tech/badge/hashdigits/month)](https://pepy.tech/project/hashdigits)
+
 # [hashdigits](https://github.com/rtmigo/hashdigits_py#readme)
 
 Python library for matching file or string patterns like `img-####.jpg`,
@@ -21,9 +26,9 @@ pip3 install hashdigits
 import glob
 import hashdigits
 
-glob_pattern = hashdigits.hash_pattern_to_glob('/path/to/img####.jpg')
+file_mask = hashdigits.pattern_to_glob('/path/to/img####.jpg')
 
-print(glob.glob(glob_pattern))
+print(glob.glob(file_mask))
 
 # prints all files matching /path/to/img####.jpg
 ```
@@ -34,13 +39,13 @@ print(glob.glob(glob_pattern))
 import re
 import hashdigits
 
-regex_pattern = hashdigits.hash_pattern_to_regex('img####.jpg')
+regex = hashdigits.pattern_to_regex('img####.jpg')
 
-a = re.match(regex_pattern, 'img1234.jpg')
-print(a.group(0))  # img1234.jpg
-print(a.group(1))  # 1234
+a = re.match(regex, 'img0023.jpg')
+print(a.group(0))  # img0023.jpg
+print(a.group(1))  # 0023
 
-b = re.match(regex_pattern, 'anything.txt')
+b = re.match(regex, 'anything.txt')
 print(b)  # None
 ```
 
@@ -49,9 +54,9 @@ print(b)  # None
 ```python
 import hashdigits
 
-x: int = hashdigits.extract_number("img####.jpg", "img1234.jpg")
+x: int = hashdigits.extract_number("img####.jpg", "img0023.jpg")
 
-print(x)  # 1234
+print(x)  # 23
 
 try:
     y = hashdigits.extract_number("img####.jpg", "thumbs.db")
