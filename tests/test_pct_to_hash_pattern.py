@@ -4,7 +4,7 @@
 
 import unittest
 
-from framefile._base import pct_to_hash_pattern
+from framefile import pct_to_hash_pattern
 
 
 class TestPctToHashPattern(unittest.TestCase):

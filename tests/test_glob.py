@@ -5,8 +5,8 @@
 import fnmatch
 import unittest
 
-from framefile import hash_pattern_to_glob
-from framefile._base import pct_pattern_to_glob
+from framefile import hash_pattern_to_glob, pct_pattern_to_glob
+
 
 _files = ["anything.png",
           "img0001.png",
