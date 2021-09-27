@@ -114,7 +114,9 @@ print(y)  # 23
 
 If the name does not match the pattern, both functions throw the same `PatternMismatchError`.
 
-```
+```python
+import framefile
+
 try:
     z = framefile.hash_extract_number("img####.jpg", "thumbs.db")
 except framefile.PatternMismatchError:
