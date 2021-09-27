@@ -12,7 +12,7 @@ def load_module_dict(filename: str) -> dict:
     return module.__dict__
 
 
-name = "hashdigits"
+name = "framefile"
 
 constants = load_module_dict(f'{name}/_constants.py')
 

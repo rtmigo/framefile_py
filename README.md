@@ -5,8 +5,8 @@
 
 # [hashdigits](https://github.com/rtmigo/hashdigits_py#readme)
 
-Python library for matching file or string patterns like `img-####.jpg`,
-where the hash sign `#` denotes a single digit.
+Python library for parsing and matching file name patterns like `IMG_####.JPG` or 
+`IMG_%04d.JPG`.
 
 Such patterns are used, for example, for the file names of individual video
 frames in  [ffmpeg](https://www.ffmpeg.org/)
@@ -15,7 +15,7 @@ and [Blender](https://www.blender.org/).
 # Install
 
 ```
-pip3 install hashdigits
+pip3 install framefile
 ```
 
 <details>
@@ -23,33 +23,46 @@ pip3 install hashdigits
 
 #### Install pre-release from GitHub:
 ```
-pip3 install git+https://github.com/rtmigo/hashdigits_py@staging#egg=hashdigits
+pip3 install git+https://github.com/rtmigo/framefile_py@staging#egg=framefile
 ```
 
 </details>
 
 # Use
 
+## Guess pattern from file name
+
+```python
+import framefile
+
+print(framefile.filename_to_hash_pattern("IMG_4567.JPG"))  # IMG_####.JPG
+print(framefile.filename_to_pct_pattern("IMG_4567.JPG"))  # IMG_%04d.JPG
+```
+
+
+
 ## Matching with glob
 
 ```python
 import glob
-import hashdigits
+import framefile
 
-file_mask = hashdigits.pattern_to_glob('/path/to/img####.jpg')
+file_mask = framefile.hash_pattern_to_glob('/path/to/img####.jpg')
 
 print(glob.glob(file_mask))
 
 # prints all files matching /path/to/img####.jpg
 ```
 
+For percent patterns `pct_pattern_to_glob` can be used instead of `hash_pattern_to_glob`.
+
 ## Matching with regular expressions
 
 ```python
 import re
-import hashdigits
+import framefile
 
-regex = hashdigits.pattern_to_regex('img####.jpg')
+regex = framefile.hash_pattern_to_regex('img####.jpg')
 
 a = re.match(regex, 'img0023.jpg')
 print(a.group(0))  # img0023.jpg
@@ -59,19 +72,22 @@ b = re.match(regex, 'anything.txt')
 print(b)  # None
 ```
 
+For percent patterns `pct_pattern_to_regex` can be used instead of `hash_pattern_to_regex`.
+
 ## Extracting integers
 
 ```python
-import hashdigits
+import framefile
 
-x: int = hashdigits.extract_number("img####.jpg", "img0023.jpg")
+x: int = framefile.hash_extract_number("img####.jpg", "img0023.jpg")
 
 print(x)  # 23
 
 try:
-    y = hashdigits.extract_number("img####.jpg", "thumbs.db")
-except hashdigits.PatternMismatchError:
+    y = framefile.hash_extract_number("img####.jpg", "thumbs.db")
+except framefile.PatternMismatchError:
     print("Oops!")
 ```
 
+For percent patterns `pct_extract_number` can be used instead of `hash_extract_number`.
 
