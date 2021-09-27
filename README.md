@@ -41,7 +41,7 @@ print(framefile.filename_to_pct_pattern("IMG_4567.JPG"))  # IMG_%04d.JPG
 
 
 
-## Matching with glob
+## Find files by pattern
 
 ```python
 import glob
@@ -56,7 +56,7 @@ print(glob.glob(file_mask))
 
 For percent patterns `pct_pattern_to_glob` can be used instead of `hash_pattern_to_glob`.
 
-## Matching with regular expressions
+## Match file names as strings
 
 ```python
 import re
@@ -74,7 +74,7 @@ print(b)  # None
 
 For percent patterns `pct_pattern_to_regex` can be used instead of `hash_pattern_to_regex`.
 
-## Extracting integers
+## Extract number from file name
 
 ```python
 import framefile
