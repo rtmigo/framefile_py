@@ -24,7 +24,7 @@ def _iter_matches_check_unique(pattern: str,
             pass
 
 
-def num_matches_from_interval(
+def count_matches_from_interval(
         pattern: str,
         start: int,
         end: int,

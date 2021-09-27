@@ -5,7 +5,7 @@ import fnmatch
 import re
 import unittest
 
-from hashdigits import DuplicateNumberError, num_matches_from_interval, \
+from hashdigits import DuplicateNumberError, count_matches_from_interval, \
     extract_number, PatternMismatchError, pattern_to_glob, \
     NumbersCountError, pattern_to_regex
 
@@ -28,23 +28,23 @@ class TestNumFramesReady(unittest.TestCase):
 
         with self.subTest("6,7,8,9 of 6..15"):
             self.assertEqual(
-                num_matches_from_interval(pattern, 6, 15, files),
+                count_matches_from_interval(pattern, 6, 15, files),
                 4)
 
         with self.subTest("1,3,4 of 1,2,3,4"):
             self.assertEqual(
-                num_matches_from_interval(pattern, 1, 4, files),
+                count_matches_from_interval(pattern, 1, 4, files),
                 3)
 
         with self.subTest("Modified pattern matches nothing"):
             self.assertEqual(
-                num_matches_from_interval(pattern + "z", 6, 15, files),
+                count_matches_from_interval(pattern + "z", 6, 15, files),
                 0)
 
     def test_duplicate_number(self):
         with self.assertRaises(DuplicateNumberError):
-            num_matches_from_interval("img####.jpg", 6, 15,
-                                      ["img0001.jpg",
+            count_matches_from_interval("img####.jpg", 6, 15,
+                                        ["img0001.jpg",
                                        "img0002.jpg",
                                        "img0002.jpg",
                                        "img0003.jpg"])
