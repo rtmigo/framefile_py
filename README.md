@@ -8,9 +8,15 @@
 Python library for parsing and matching file name patterns like `IMG_####.JPG` or 
 `IMG_%04d.JPG`.
 
-Such patterns are used, for example, for the file names of individual video
-frames in  [ffmpeg](https://www.ffmpeg.org/)
-and [Blender](https://www.blender.org/).
+---
+
+Such files are often created by cameras and video production software.
+As a rule, this is a set of images with consecutive numbers, 
+like `IMG_0001.JPG`, `IMG_0002.JPG`, `IMG_0003.JPG` and so on.
+
+To handle files such as video sequences, for [ffmpeg](https://www.ffmpeg.org/)
+we will need a pattern like `IMG_%04d.JPG`, and for [Blender](https://www.blender.org/)
+a pattern like `IMG_####.JPG`.
 
 # Install
 
@@ -39,6 +45,27 @@ print(framefile.filename_to_hash_pattern("IMG_4567.JPG"))  # IMG_####.JPG
 print(framefile.filename_to_pct_pattern("IMG_4567.JPG"))  # IMG_%04d.JPG
 ```
 
+Any names with numbers in them are supported. The path can also be part of 
+the file name.
+
+```python
+import framefile
+
+print(framefile.filename_to_hash_pattern("/video/frame-01234.png"))
+
+# /video/frame-#####.png
+```
+
+If there are several number sequences in the file name, only the last of them 
+will be considered a pattern. And only if its length is more than one digit.
+
+```python
+import framefile
+
+print(framefile.filename_to_hash_pattern("/video/take505_frame01234.cr2"))
+
+# /video/take505_frame#####.cr2
+```
 
 
 ## Find files by pattern
@@ -47,14 +74,14 @@ print(framefile.filename_to_pct_pattern("IMG_4567.JPG"))  # IMG_%04d.JPG
 import glob
 import framefile
 
+# print all files matching /path/to/img####.jpg
 file_mask = framefile.hash_pattern_to_glob('/path/to/img####.jpg')
-
 print(glob.glob(file_mask))
 
-# prints all files matching /path/to/img####.jpg
+# print all files matching /path/to/img%04d.jpg
+file_mask = framefile.pct_pattern_to_glob('/path/to/img%04d.jpg')
+print(glob.glob(file_mask))
 ```
-
-For percent patterns `pct_pattern_to_glob` can be used instead of `hash_pattern_to_glob`.
 
 ## Match file names as strings
 
@@ -63,6 +90,7 @@ import re
 import framefile
 
 regex = framefile.hash_pattern_to_regex('img####.jpg')
+# or framefile.pct_pattern_to_regex('img%04d.jpg')
 
 a = re.match(regex, 'img0023.jpg')
 print(a.group(0))  # img0023.jpg
@@ -72,22 +100,23 @@ b = re.match(regex, 'anything.txt')
 print(b)  # None
 ```
 
-For percent patterns `pct_pattern_to_regex` can be used instead of `hash_pattern_to_regex`.
-
 ## Extract number from file name
 
 ```python
 import framefile
 
 x: int = framefile.hash_extract_number("img####.jpg", "img0023.jpg")
-
 print(x)  # 23
 
+y: int = framefile.pct_extract_number("img%04d.jpg", "img0023.jpg")
+print(y)  # 23
+```
+
+If the name does not match the pattern, both functions throw the same `PatternMismatchError`.
+
+```
 try:
-    y = framefile.hash_extract_number("img####.jpg", "thumbs.db")
+    z = framefile.hash_extract_number("img####.jpg", "thumbs.db")
 except framefile.PatternMismatchError:
     print("Oops!")
 ```
-
-For percent patterns `pct_extract_number` can be used instead of `hash_extract_number`.
-

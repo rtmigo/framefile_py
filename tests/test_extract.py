@@ -3,7 +3,8 @@
 
 import unittest
 
-from framefile import hash_extract_number, pct_extract_number, PatternMismatchError
+from framefile import hash_extract_number, pct_extract_number, \
+    PatternMismatchError
 
 
 class TestHashExtractNumber(unittest.TestCase):
@@ -17,6 +18,7 @@ class TestHashExtractNumber(unittest.TestCase):
         with self.assertRaises(PatternMismatchError):
             hash_extract_number('file_####.jpg', 'file_123.jpg')
 
+
 class TestPctExtractNumber(unittest.TestCase):
     def test_match(self):
         self.assertEqual(pct_extract_number('file_%04d.jpg', 'file_1234.jpg'),
@@ -27,4 +29,3 @@ class TestPctExtractNumber(unittest.TestCase):
     def test_mismatch(self):
         with self.assertRaises(PatternMismatchError):
             pct_extract_number('file_%04d.jpg', 'file_123.jpg')
-
