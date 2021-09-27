@@ -74,6 +74,6 @@ def num_matches_from_interval(
         pattern: str,
         start: int,
         end: int,
-        files: Iterable[str]) -> int:
-    return sum(1 for num in _iter_matches_check_unique(pattern, files)
+        strings: Iterable[str]) -> int:
+    return sum(1 for num in _iter_matches_check_unique(pattern, strings)
                if start <= num <= end)

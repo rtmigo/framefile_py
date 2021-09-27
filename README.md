@@ -10,7 +10,7 @@ and [Blender](https://www.blender.org/).
 # Install
 
 ```
-pip3 install https://github.com/rtmigo/hashdigits_py
+pip3 install hashdigits
 ```
 
 # Use
