@@ -1,6 +1,6 @@
 import glob
 import re
-from functools import cache
+from functools import lru_cache
 from typing import Iterable
 
 
@@ -12,7 +12,7 @@ class PatternMismatchError(ValueError):
     pass
 
 
-@cache
+@lru_cache
 def hash_pattern_to_regex(pattern: str,
                           min_numbers: int = 1,
                           max_numbers: int = 1) -> str:
@@ -36,7 +36,7 @@ def hash_pattern_to_regex(pattern: str,
     return result
 
 
-@cache
+@lru_cache
 def hash_pattern_to_glob(pattern: str) -> str:
     result = glob.escape(pattern)
     result = result.replace(r'\#', '#')
