@@ -3,9 +3,15 @@
 
 import glob
 import re
+from enum import IntEnum, auto
 from functools import lru_cache
 from pathlib import Path
 from typing import Union, Iterable, Tuple, Callable
+
+
+class Format(IntEnum):
+    percent = auto()
+    hash = auto()
 
 
 class NumbersCountError(ValueError):
@@ -14,6 +20,22 @@ class NumbersCountError(ValueError):
 
 class PatternMismatchError(ValueError):
     pass
+
+
+def iter_spans(text: str, fmt: Format = Format.hash, min_length: int = 2) \
+        -> Iterable[Tuple[int, int, int]]:
+    if fmt == Format.hash:
+        return iter_hash_spans(text, min_length=min_length)
+    if fmt == Format.percent:
+        return iter_pct_spans(text, min_length=min_length)
+    raise ValueError(fmt)
+
+
+def is_pattern(text: str, fmt: Format = Format.hash, min_length: int = 2) \
+        -> bool:
+    for _ in iter_spans(text, fmt=fmt, min_length=min_length):
+        return True
+    return False
 
 
 def iter_hash_spans(text: str, min_length: int) \
