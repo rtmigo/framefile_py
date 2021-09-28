@@ -32,3 +32,4 @@ class TestPctPatternToRegex(unittest.TestCase):
             self.assertIsNone(re.match(rx, "file-5432:png"))
         with self.subTest("The first group is the number sequence:"):
             self.assertEqual(re.match(rx, "file-5432.png").group(1), '5432')
+
