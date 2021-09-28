@@ -3,9 +3,15 @@
 
 import glob
 import re
+from enum import IntEnum, auto
 from functools import lru_cache
 from pathlib import Path
 from typing import Union, Iterable, Tuple, Callable
+
+
+class Format(IntEnum):
+    percent = auto()
+    hash = auto()
 
 
 class NumbersCountError(ValueError):
@@ -14,6 +20,22 @@ class NumbersCountError(ValueError):
 
 class PatternMismatchError(ValueError):
     pass
+
+
+def iter_spans(text: str, fmt: Format = Format.hash, min_length: int = 2) \
+        -> Iterable[Tuple[int, int, int]]:
+    if fmt == Format.hash:
+        return iter_hash_spans(text, min_length=min_length)
+    if fmt == Format.percent:
+        return iter_pct_spans(text, min_length=min_length)
+    raise ValueError(fmt)
+
+
+def is_pattern(text: str, fmt: Format = Format.hash, min_length: int = 2) \
+        -> bool:
+    for _ in iter_spans(text, fmt=fmt, min_length=min_length):
+        return True
+    return False
 
 
 def iter_hash_spans(text: str, min_length: int) \
@@ -72,14 +94,10 @@ def pct_pattern_to_glob(pattern: str) -> str:
 def hash_extract_number(pattern: str, text: str) -> int:
     return _extract_number(pattern, text, hash_pattern_to_regex)
 
+
 def pct_extract_number(pattern: str, text: str) -> int:
     return _extract_number(pattern, text, pct_pattern_to_regex)
 
-    # rx = hash_pattern_to_regex(pattern)
-    # m = re.match(rx, text, flags=re.MULTILINE)
-    # if m is None:
-    #     raise PatternMismatchError
-    # return int(m.group(1))
 
 def _extract_number(pattern: str, text: str,
                     to_regex_func: Callable[[str], str]) -> int:
@@ -115,7 +133,6 @@ def _filename_to_pattern(filename: Union[str, Path],
     match: re.Match
     for s, e in reversed(list(
             iter_digit_spans(filename, min_length=min_length))):
-        # digit_mask = "%0" + str(e - s) + "d"
         return (filename[:s] +
                 to_pattern_func(e - s) +
                 filename[e:])
