@@ -23,7 +23,7 @@ setup(
     name=name,
     version=constants['__version__'],
 
-    author="Artyom Galkin",
+    author="Artёm IG",
     author_email="ortemeo@gmail.com",
     url='https://github.com/rtmigo/framefile_py',
 
@@ -47,6 +47,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Typing :: Typed",
         "Operating System :: POSIX",
         "Operating System :: Microsoft :: Windows"
