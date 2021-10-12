@@ -1,7 +1,8 @@
-# SPDX-FileCopyrightText: (c) 2021 Artyom Galkin <github.com/rtmigo>
+# SPDX-FileCopyrightText: (c) 2021 Artёm IG <github.com/rtmigo>
 # SPDX-License-Identifier: MIT
 
 import glob
+import os.path
 import re
 from enum import IntEnum, auto
 from functools import lru_cache
@@ -66,10 +67,14 @@ def pct_pattern_to_regex(pattern: str) -> str:
     return _pattern_to_regex(pattern, iter_func=iter_pct_spans)
 
 
+
 @lru_cache()
 def _pattern_to_regex(pattern: str, iter_func: Callable) -> str:
+    pattern = pattern.replace("#", "\0")
     result = re.escape(pattern)
-    result = result.replace(r'\#', '#')
+    result = result.replace("\0", "#")
+    #result = result.replace(r'\#', '#')
+
     for start, end, digits_count in reversed(
             list(iter_func(result, min_length=1))):
         return (result[:start] +
@@ -80,8 +85,11 @@ def _pattern_to_regex(pattern: str, iter_func: Callable) -> str:
 
 @lru_cache()
 def hash_pattern_to_glob(pattern: str) -> str:
-    result = glob.escape(pattern)
-    result = result.replace(r'\#', '#')
+    result = pattern.replace("#", "\0")
+    result = glob.escape(result)
+    result = result.replace("\0", "#")
+    #raise Exception()
+    #result = result.replace(r'\#', '#')
     result = result.replace(r'#', '[0-9]')
     return result
 
