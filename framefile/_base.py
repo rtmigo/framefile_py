@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import glob
-import os.path
 import re
 from enum import IntEnum, auto
 from functools import lru_cache
@@ -20,6 +19,10 @@ class NumbersCountError(ValueError):
 
 
 class PatternMismatchError(ValueError):
+    pass
+
+
+class PatternNotFoundError(Exception):
     pass
 
 
@@ -67,13 +70,12 @@ def pct_pattern_to_regex(pattern: str) -> str:
     return _pattern_to_regex(pattern, iter_func=iter_pct_spans)
 
 
-
 @lru_cache()
 def _pattern_to_regex(pattern: str, iter_func: Callable) -> str:
     pattern = pattern.replace("#", "\0")
     result = re.escape(pattern)
     result = result.replace("\0", "#")
-    #result = result.replace(r'\#', '#')
+    # result = result.replace(r'\#', '#')
 
     for start, end, digits_count in reversed(
             list(iter_func(result, min_length=1))):
@@ -88,8 +90,8 @@ def hash_pattern_to_glob(pattern: str) -> str:
     result = pattern.replace("#", "\0")
     result = glob.escape(result)
     result = result.replace("\0", "#")
-    #raise Exception()
-    #result = result.replace(r'\#', '#')
+    # raise Exception()
+    # result = result.replace(r'\#', '#')
     result = result.replace(r'#', '[0-9]')
     return result
 
@@ -145,6 +147,8 @@ def _filename_to_pattern(filename: Union[str, Path],
                 to_pattern_func(e - s) +
                 filename[e:])
 
+    if min_length > 0:
+        raise PatternNotFoundError
     return filename
 
 
