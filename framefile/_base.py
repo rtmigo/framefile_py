@@ -163,6 +163,7 @@ def _filename_to_pattern(filename: Union[str, Path],
                       to_pattern_func(e - s) +
                       basename[e:])
         return os.path.join(os.path.dirname(filename), pattern_bn)
+        #return "/".join()
     if min_length > 0:
         raise PatternNotFoundError
     return filename
