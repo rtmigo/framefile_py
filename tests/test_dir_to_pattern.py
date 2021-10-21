@@ -3,6 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from framefile import directory_to_pattern, Format, PatternNotFoundError
+from tests.test_pct import unislash
 
 
 class TestDirToPattern(unittest.TestCase):
@@ -17,10 +18,10 @@ class TestDirToPattern(unittest.TestCase):
             (td / ".DS_Store").touch()
             (td / "thumbs.db").touch()
 
-            p = directory_to_pattern(Format.hash, td)
+            p = unislash(directory_to_pattern(Format.hash, td))
             self.assertTrue(p.endswith('/frame###.png'), p)
 
-            p = directory_to_pattern(Format.percent, td)
+            p = unislash(directory_to_pattern(Format.percent, td))
             self.assertTrue(p.endswith('/frame%03d.png'), p)
 
     def test_not_found(self):
