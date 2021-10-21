@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: MIT
 
 import glob
+import os.path
 import re
+from collections import Counter
 from enum import IntEnum, auto
 from functools import lru_cache
 from pathlib import Path
@@ -136,20 +138,60 @@ def hash_pattern(length: int) -> str:
     return "#" * length
 
 
+def length_to_pattern(fmt: Format, n: int) -> str:
+    if fmt == Format.hash:
+        return hash_pattern(n)
+    elif fmt == Format.percent:
+        return pct_pattern(n)
+    else:
+        raise ValueError(fmt)
+
+
 def _filename_to_pattern(filename: Union[str, Path],
                          to_pattern_func: Callable,
                          min_length: int) -> str:
     filename = str(filename)
+
+    # todo test that digits in directory names are not matched
+
+    basename = os.path.basename(filename)
+
     match: re.Match
     for s, e in reversed(list(
-            iter_digit_spans(filename, min_length=min_length))):
-        return (filename[:s] +
-                to_pattern_func(e - s) +
-                filename[e:])
-
+            iter_digit_spans(basename, min_length=min_length))):
+        pattern_bn = (basename[:s] +
+                      to_pattern_func(e - s) +
+                      basename[e:])
+        return os.path.join(os.path.dirname(filename), pattern_bn)
     if min_length > 0:
         raise PatternNotFoundError
     return filename
+
+
+def directory_to_pattern(fmt: Format,
+                         dirpath: Path,
+                         min_length: int = 2) -> str:
+    """Returns the most common file name pattern found in the directory.
+
+    For example, `dirpath` may be `/path/to/my_timelapse`. Based on files found
+    in this directory, the function will return something like
+    `/path/to/my_timelapse/img_####.jpg`.
+    """
+
+    counter: Counter = Counter()
+    for item in dirpath.glob("*"):
+        if item.is_file():
+            try:
+                pat = _filename_to_pattern(
+                    filename=item,
+                    to_pattern_func=lambda l: length_to_pattern(fmt, l),
+                    min_length=min_length)
+                counter[pat] += 1
+            except PatternNotFoundError:
+                continue
+    if counter:
+        return counter.most_common(1)[0][0]
+    raise PatternNotFoundError
 
 
 @lru_cache()
@@ -160,13 +202,11 @@ def pct_to_hash_pattern(pattern: str) -> str:
     return re.sub(r'%(\d+)d', replacer, pattern, flags=re.MULTILINE)
 
 
-def filename_to_pct_pattern(filename: Union[str, Path], min_length=2) -> str:
-    return _filename_to_pattern(filename,
-                                to_pattern_func=pct_pattern,
-                                min_length=min_length)
+def filename_to_pattern(fmt: Format, filename: Union[str, Path],
+                        min_length=2) -> str:
+    return _filename_to_pattern(
+        filename,
+        to_pattern_func=lambda l: length_to_pattern(fmt, l),
+        min_length=min_length)
 
 
-def filename_to_hash_pattern(filename: Union[str, Path], min_length=2) -> str:
-    return _filename_to_pattern(filename,
-                                to_pattern_func=hash_pattern,
-                                min_length=min_length)
