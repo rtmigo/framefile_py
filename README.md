@@ -1,6 +1,6 @@
 [![PyPI version shields.io](https://img.shields.io/pypi/v/framefile.svg)](https://pypi.python.org/pypi/framefile/)
 [![Generic badge](https://img.shields.io/badge/Python-3.7+-blue.svg)](#)
-[![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux-blue.svg)](#)
+[![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux%20|%20MacOS-blue.svg)](#)
 [![Downloads](https://pepy.tech/badge/framefile/month)](https://pepy.tech/project/framefile)
 
 # [framefile](https://github.com/rtmigo/framefile_py#readme)

@@ -5,7 +5,7 @@
 import unittest
 
 from framefile import pct_to_hash_pattern
-from tests.test_pct import unislash
+from tests.common import unislash
 
 
 class TestPctToHashPattern(unittest.TestCase):
