@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: (c) 2021 Artёm IG <github.com/rtmigo>
 # SPDX-License-Identifier: MIT
-
-
+import os
 import unittest
 
 from framefile import filename_to_pct_pattern, filename_to_hash_pattern
@@ -10,7 +9,10 @@ from framefile._base import PatternNotFoundError
 # todo rewrite with newer functions
 
 def unislash(s):
-    return s.replace("\\", "/")
+    if os.name == "nt":
+        return s.replace("\\", "/")
+    else:
+        return s
 
 class TestFilenameToPct(unittest.TestCase):
     def test(self):
