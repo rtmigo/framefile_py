@@ -14,6 +14,7 @@ def unislash(s):
     else:
         return s
 
+
 class TestFilenameToPct(unittest.TestCase):
     def test(self):
         with self.assertWarns(DeprecationWarning):
