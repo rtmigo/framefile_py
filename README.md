@@ -1,6 +1,6 @@
 [![PyPI version shields.io](https://img.shields.io/pypi/v/framefile.svg)](https://pypi.python.org/pypi/framefile/)
 [![Generic badge](https://img.shields.io/badge/Python-3.7+-blue.svg)](#)
-[![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux-blue.svg)](#)
+[![Generic badge](https://img.shields.io/badge/Tested_on-Windows%20|%20Linux%20|%20MacOS-blue.svg)](#)
 [![Downloads](https://pepy.tech/badge/framefile/month)](https://pepy.tech/project/framefile)
 
 # [framefile](https://github.com/rtmigo/framefile_py#readme)
@@ -41,20 +41,20 @@ pip3 install git+https://github.com/rtmigo/framefile_py@staging#egg=framefile
 
 ## Guess pattern from file name
 
-```python
-import framefile
+```python3
+from framefile import filename_to_pattern, Format
 
-print(framefile.filename_to_hash_pattern("IMG_4567.JPG"))  # IMG_####.JPG
-print(framefile.filename_to_pct_pattern("IMG_4567.JPG"))  # IMG_%04d.JPG
+print(filename_to_pattern(Format.hash, "IMG_4567.JPG"))  # IMG_####.JPG
+print(filename_to_pattern(Format.percent, "IMG_4567.JPG"))  # IMG_%04d.JPG
 ```
 
 Any names with numbers in them are supported. The path can also be part of 
 the file name.
 
-```python
-import framefile
+```python3
+from framefile import filename_to_pattern, Format
 
-print(framefile.filename_to_hash_pattern("/video/frame-01234.png"))
+print(filename_to_pattern(Format.hash, "/video/frame-01234.png"))
 
 # /video/frame-#####.png
 ```
@@ -63,12 +63,31 @@ If there are several number sequences in the file name, only the last of them
 will be considered a pattern. And only if its length is more than one digit.
 
 ```python
-import framefile
+from framefile import filename_to_pattern, Format
 
-print(framefile.filename_to_hash_pattern("/video/take505_frame01234.cr2"))
+print(filename_to_pattern(Format.hash, "/video/take505_frame01234.cr2"))
 
 # /video/take505_frame#####.cr2
 ```
+
+## Guess pattern from directory path
+
+The `directory_to_pattern` function returns the most common file name pattern 
+found in particular directory.
+
+```python
+from pathlib import Path
+from framefile import directory_to_pattern, Format
+
+print(directory_to_pattern(Format.hash, Path("/path/to/my_timelapse")))
+
+# /path/to/my_timelapse/img####.jpg
+
+print(directory_to_pattern(Format.percent, Path("/path/to/my_timelapse")))
+
+# /path/to/my_timelapse/img%04d.jpg
+```
+
 
 
 ## Find files by pattern

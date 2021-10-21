@@ -5,10 +5,11 @@
 import unittest
 
 from framefile import pct_to_hash_pattern
+from tests.common import unislash
 
 
 class TestPctToHashPattern(unittest.TestCase):
     def test(self):
         self.assertEqual(
-            pct_to_hash_pattern("/path/to/IMG_%04d.CR2"),
+            unislash(pct_to_hash_pattern("/path/to/IMG_%04d.CR2")),
             '/path/to/IMG_####.CR2')
