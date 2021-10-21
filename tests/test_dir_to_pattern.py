@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from framefile import directory_to_pattern, Format, PatternNotFoundError
-from tests.test_pct import unislash
+from tests.common import unislash
 
 
 class TestDirToPattern(unittest.TestCase):
